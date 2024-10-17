@@ -1,0 +1,349 @@
+.bg-view-yellow {
+    background-color: rgb(250, 187, 32) !important;
+}
+
+.bg-default {
+    background-color: white !important;
+}
+
+.bg-view-black {
+    background-color: rgb(14, 14, 14);
+}
+
+.white-bg {
+    background-color: white;
+    /* Set background color to white */
+    margin: 0;
+    /* Remove any margins */
+    padding: 0;
+    /* Remove any padding */
+    width: 100%;
+    /* Make it full width */
+    height: auto;
+    /* Make it full height (optional) */
+}
+
+.custom-dropdown {
+    max-height: 150px;  /* Set maximum height for dropdown */
+    overflow-y: auto;    /* Enable vertical scrolling */
+}
+
+.transparent-input {
+    background-color: transparent !important; /* Makes background see-through */
+    border: 1px solid rgba(255, 255, 255, 0.5) !important; /* Optional semi-transparent border */
+    color: rgb(165, 165, 165) !important; /* Text color to contrast with background */
+}
+
+select.transparent-input option {
+    background-color: #444;
+}
+
+input[type="datetime-local"].transparent-input::-webkit-calendar-picker-indicator {
+    background-color: rgb(209, 209, 209); /* Change color of the picker button */
+    /* border-radius: 50%; */
+}
+
+.post-job-link {
+    text-decoration: none;
+    color: rgb(250, 187, 32);
+    transition: color 0.3s;
+}
+
+.post-job-link:hover {
+    color: rgb(0, 0, 0);
+}
+
+.spaced-list li {
+    margin-bottom: 20px;
+    /* Adjust the value to control spacing */
+}
+
+/* From Uiverse.io by SteveBloX */
+.card {
+    box-sizing: border-box;
+    width: 190px;
+    height: 400px;
+    background: rgba(217, 217, 217, 0.58);
+    border: 1px solid white;
+    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    font-weight: bolder;
+    color: black;
+}
+
+.card:hover {
+    border: 1px solid black;
+    transform: scale(1.05);
+}
+
+.card:active {
+    transform: scale(0.95) rotateZ(1.7deg);
+}
+
+/* From Uiverse.io by adamgiebl */
+.card2 {
+    width: max-width;
+    height: auto;
+    border-radius: 30px;
+    background: #e0e0e0;
+    box-shadow: 15px 15px 30px #bebebe,
+        -15px -15px 30px #ffffff;
+}
+
+/* General styling for nav-links */
+.navbar-nav .nav-item .nav-link {
+    position: relative;
+    /* Needed to position the ::after element correctly */
+    color: white !important;
+    /* Default color */
+}
+
+/* Active link text color */
+.navbar-nav .nav-item .nav-link.active {
+    color: rgb(250, 187, 32) !important;
+    /* Change active tab text color */
+}
+
+/* Active tab styling with the bottom line */
+.navbar-nav .nav-item .nav-link.active::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    /* Height of the bottom line */
+    background-color: rgb(250, 187, 32);
+    /* Color of the bottom line */
+    position: absolute;
+    bottom: -8px;
+    /* Position the line lower without affecting the text */
+    left: 0;
+}
+
+/* Ensure that the ::after element does not show for inactive tabs */
+.navbar-nav .nav-item .nav-link:not(.active)::after {
+    content: none;
+    /* Remove any ::after content for non-active tabs */
+}
+
+/* Hover styling */
+.navbar-nav .nav-item .nav-link:hover {
+    color: rgb(250, 187, 32);
+    /* Change color on hover */
+}
+
+/* Add animation for the bottom line when active */
+.navbar-nav .nav-item .nav-link.active::after {
+    content: '';
+    display: block;
+    width: 0;
+    /* Start with 0 width */
+    height: 3px;
+    background-color: rgb(250, 187, 32);
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    animation: underline-expand 0.4s forwards;
+    /* Animation for expanding the underline */
+}
+
+/* Animation for expanding the underline */
+@keyframes underline-expand {
+    0% {
+        width: 0;
+        /* Start from 0 width */
+    }
+
+    100% {
+        width: 100%;
+        /* Expand to full width */
+    }
+}
+
+/* Hover styling with smooth color transition */
+.navbar-nav .nav-item .nav-link:hover {
+    color: rgb(250, 187, 32) !important;
+    /* Change text color to yellow on hover */
+    transition: color 0.3s ease-in-out;
+    /* Smooth transition for text color */
+}
+
+/* Hover styling for active tab */
+.navbar-nav .nav-item .nav-link.active:hover {
+    color: rgb(250, 187, 32) !important;
+    /* Change active tab text color to yellow on hover */
+}
+
+/* Animation for the active tab's text color */
+.navbar-nav .nav-item .nav-link.active {
+    transition: color 0.3s ease-in-out;
+    /* Smooth transition for text color */
+}
+
+/* General styling for nav-links */
+.navbar-nav .nav-item .nav-link {
+    position: relative;
+    /* Needed to position the ::after element correctly */
+    color: white !important;
+    /* Default color */
+    transition: color 0.3s ease-in-out;
+    /* Add smooth transition for color change */
+}
+
+.suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    width: 100%; /* Automatically matches the width of the input field */
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-sizing: border-box; /* Ensure padding/border don't affect width */
+}
+
+.suggestions ul {
+    list-style: none;
+    /* Remove bullet points */
+    padding: 0;
+    /* Remove padding */
+    margin: 0;
+    /* Remove margin */
+}
+
+.suggestions li {
+    padding: 10px;
+    /* Add padding for each suggestion */
+    cursor: pointer;
+    /* Pointer cursor for hover effect */
+}
+
+.suggestions li:hover {
+    background-color: #f0f0f0;
+    /* Highlight on hover */
+}
+
+
+.ui-input-container {
+    position: relative;
+    width: auto;
+}
+
+.ui-input {
+    width: 90%;
+    padding: 10px 10px 10px 40px;
+    font-size: 1em;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    background-color: transparent;
+    transition: border-color 0.3s;
+}
+
+.ui-input:focus {
+    border-color: rgba(255, 255, 0, 0.274);
+}
+
+.ui-input-underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 90%;
+    background-color: rgba(255, 255, 0, 0.274);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.ui-input:focus+.ui-input-underline {
+    transform: scaleX(1);
+}
+
+.ui-input-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 90%;
+    width: 0;
+    background-color: rgba(255, 255, 0, 0.274);
+    transition: width 0.3s;
+}
+
+.ui-input:focus~.ui-input-highlight {
+    width: 90%;
+}
+
+.ui-input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    transition: color 0.3s;
+}
+
+.ui-input:focus~.ui-input-icon {
+    color: rgba(255, 255, 0, 0.637);
+}
+
+.ui-input-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.logos-hover:hover {
+    color: white;
+}
+
+.sort-arrows {
+    float: right;
+    /* Align arrows to the right */
+}
+
+.sort-arrow {
+    cursor: pointer;
+    /* Change cursor to pointer on hover */
+    padding-left: 10px;
+    /* Add some space between text and arrows */
+}
+
+/* Optional: Change color on hover */
+.sort-arrow:hover {
+    color: rgb(250, 187, 32);
+    /* Change arrow color on hover for better visibility */
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+/* Normal text styling */
+.zoom-text {
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: inline-block; /* Required for transform to work on inline elements */
+}
+
+/* Zoom effect on hover */
+.zoom-text:hover {
+    transform: scale(1.2); /* Slightly increase size on hover */
+    color: #f39c12; /* Optional: Change text color on hover */
+}
+
+/* Style for the animated content inside ng-view */
+.content-animate {
+    animation: fadeInContent 0.5s ease-in-out; /* Animation for smooth fade-in */
+    opacity: 0;  /* Start with hidden opacity */
+    animation-fill-mode: forwards;  /* Keeps opacity at 1 after animation */
+}
+
+/* Define the fade-in animation */
+@keyframes fadeInContent {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

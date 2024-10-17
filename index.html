@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html ng-app="myMod" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Learning</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+    <script src="main_mod.js"></script>
+    <script src="admin_mod.js"></script>
+    <script src="affiliate_mod.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+
+<body ng-controller="MainController" ng-class="bgClass">
+
+
+    <br>
+    <nav class="navbar navbar-expand-sm bordern navbar-dark rounded-pill mx-4" style="background-color: black;">
+        <div class="container">
+            <!-- Left-aligned: Jobeet text -->
+            <a class="navbar-brand fw-bold fs-4 zoom-text" ng-href="#!">Jobeet</a>
+
+            <!-- Navbar toggler for mobile view -->
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Center-aligned: List items -->
+            <div class="collapse navbar-collapse offset-2 justify-content-around" id="collapsibleNavId">
+                <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!jobs" ng-class="{'active': isActive('/jobs')}">Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!news" ng-class="{'active': isActive('/news')}">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!info" ng-class="{'active': isActive('/info')}">Info</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!become_affiliate"
+                            ng-class="{'active': isActive('/become_affiliate')}">Become an Affiliate</a>
+                    </li>
+                </ul>
+                <!-- Right-aligned: Post a Job button -->
+                <!-- <button class="btn btn-outline-warning ms-auto rounded-pill" type="submit">
+                    <a href="#!post_job" class="post-job-link">Post a Job</a>
+                </button> -->
+                <button class="btn btn-outline-warning ms-auto rounded-pill post-job-link" type="submit"
+                    ng-click="goToPage('post_job')">
+                    Post a Job
+                </button>
+
+            </div>
+        </div>
+    </nav>
+
+    <ng-view></ng-view>
+
+
+
+
+    <footer style="background-color: black; height: auto;">
+        <div class="container">
+            <div class="row g-0 pt-5 pb-5">
+                <div class="col-sm-5">
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-3 fw-bold text-white">Jobeet</h1>
+                            <p class="lead text-light">Discover exciting job openings, from software engineering to
+                                marketing, and
+                                embark on a journey towards innovation and growth.</p>
+                            <hr class="my-2">
+                            <p class="text-secondary">Join Our Newsletter</p>
+                            <div class="input-group mb-3">
+                                <input type="text" class="rounded-3 form-control" style="border: 1px solid black;"
+                                    placeholder="subscribe@jobeet.com" aria-label="Recipient's username"
+                                    aria-describedby="basic-addon2">
+                                <span class="input-group-text btn-warning rounded-3" style="border: 1px solid black;"
+                                    id="basic-addon2">Subscribe</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 ms-5 mt-5 pt-5 text-light">
+                    <div class="jumbotron">
+                        <ul class="list-unstyled spaced-list">
+                            <li>For Companies</li>
+                            <li>Price List</li>
+                            <li>Privacy</li>
+                            <li>Terms</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-1 mt-5 ms-2 me-5 pt-5 text-light">
+                    <div class="jumbotron">
+                        <ul class="list-unstyled spaced-list">
+                            <li>GDPR</li>
+                            <li>Cookies</li>
+                            <li>Press Kit</li>
+                            <li>Contacts</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-sm-2 d-flex justify-content-between align-items-end"
+                    style="margin-left: calc(100% / 19);">
+                    <i class="bi bi-facebook logos-hover"></i>
+                    <i class="bi bi-twitter-x logos-hover"></i>
+                    <i class="bi bi-linkedin logos-hover"></i>
+                    <i class="bi bi-instagram logos-hover"></i>
+                    <i class="bi bi-snapchat logos-hover"></i>
+                    <i class="bi bi-youtube logos-hover"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

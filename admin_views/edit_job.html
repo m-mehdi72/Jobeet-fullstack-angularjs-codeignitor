@@ -1,0 +1,129 @@
+<div class="content-animate">
+    <div class="container px-5">
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div class="btn btn-danger rounded" ng-click="logout()" style="position: absolute; float:right; right:120px">Logout</div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div ng-if="status === 'active'">
+                    <div class="fs-6 btn disabled btn-outline-success">
+                        Active
+                    </div>
+                </div>
+                <div ng-if="status === 'expired'">
+                    <div class="fs-6 btn btn-outline-danger" style="float: right;">
+                        Expired
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="display-4 fw-bold  text-center">
+                    {{title}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container px-5 my-5">
+        <form id="contactForm" enctype="multipart/form-data" method="POST" class="text-light">
+            <div class="row">
+                <div class="form-floating mb-3 col-sm-6">
+                    <input class="form-control transparent-input" id="company" type="text" placeholder="Company"
+                        ng-model="company" required />
+                    <label for="company">&nbsp;&nbsp;&nbsp;Company</label>
+                </div>
+                <div class="form-floating mb-3 col-sm-6">
+                    <select class="form-select transparent-input" id="type" aria-label="Type" ng-model="type">
+                        <option value="Full-time">Full-Time</option>
+                        <option value="Half-time">Half-Time</option>
+                        <option value="Freelance">Freelance</option>
+                    </select>
+                    <label for="type">&nbsp;&nbsp;&nbsp;Type</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-sm-6 d-flex align-items-center justify-content-between">
+                    <label for="logoUrl" class="form-label mb-0">Upload Logo: </label>
+                    <input class="form-control transparent-input" id="logoUrl" type="file" style="width: 78%;" />
+                </div>
+                <div class="form-floating mb-3 col-sm-6">
+                    <input class="form-control transparent-input" id="jobUrl" type="text" placeholder="Job URL"
+                        ng-model="url" />
+                    <label for="jobUrl">&nbsp;&nbsp;&nbsp;Job URL</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3 col-sm-4">
+                    <input class="form-control transparent-input" id="position" type="text" placeholder="Position"
+                        ng-model="position" required />
+                    <label for="position">&nbsp;&nbsp;&nbsp;Position</label>
+                </div>
+                <div class="form-floating mb-3 col-sm-5">
+                    <input class="form-control transparent-input" id="location" type="text" placeholder="Location"
+                        ng-model="location" required />
+                    <label for="location">&nbsp;&nbsp;&nbsp;Location</label>
+                </div>
+
+                <div class="form-floating mb-3 col-sm-3">
+                    <select class="form-select transparent-input" id="category" aria-label="Category"
+                        ng-model="category">
+                        <option ng-repeat="item in categories" value="{{item}}">{{item}}</option>
+                    </select>
+                    <label for="category">&nbsp;&nbsp;&nbsp;Category</label>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control transparent-input" id="description" type="text" placeholder="Description"
+                    style="height: 10rem;" ng-model="description" required></textarea>
+                <label for="description">Job Description</label>
+            </div>
+            <div class="row">
+                <div class="form-floating mb-3 col-sm-10">
+                    <textarea class="form-control transparent-input " id="howToApply" type="text"
+                        placeholder="How to Apply" ng-model="how_to_apply" required></textarea>
+                    <label for="howToApply">&nbsp;&nbsp;&nbsp;How to Apply</label>
+                </div>
+                <div class="mb-3 col-sm-2 d-flex align-items-center justify-content-between">
+                    <label for="logoUrl" class="form-label mb-0">Public: </label>
+                    <input class="form-check-input transparent-input" id="isPublic" style="height: 50%; width: 20%;"
+                        type="checkbox" ng-model="is_public" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mb-3 col-sm-6">
+                    <input class="form-control transparent-input" id="emailAddress" type="email"
+                        placeholder="Email Address" ng-model="email" required />
+                    <label for="emailAddress">&nbsp;&nbsp;&nbsp;Email Address</label>
+                </div>
+                <div class="form-floating mb-3 col-sm-3 border-end">
+                    <div class="fs-6 text-secondary">
+                        Created At:
+                    </div>
+                    <div>
+                        {{ created | date:'dd/MM/yy h:mm a' }}
+                    </div>
+                </div>
+                <div class="form-floating mb-3 col-sm-3">
+                    <input class="form-control transparent-input" id="expiresAt" type="datetime-local"
+                        placeholder="Expires At" ng-model="expires" />
+                    <label for="expiresAt">&nbsp;&nbsp;&nbsp;Expires On</label>
+
+                    <!-- <div class="fs-6 text-secondary">
+                    Expires On:
+                </div>
+                <div>
+                    {{ futureDT | date:'d/M/yy h:mm a' }}
+                </div> -->
+                </div>
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-outline-warning btn-lg" id="submitButton" type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>

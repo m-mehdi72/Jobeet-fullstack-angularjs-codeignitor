@@ -1,0 +1,110 @@
+<div class="content-animate">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <div ng-if="job.status === 'active'">
+                    <div class="fs-6 btn disabled btn-outline-success" style="float: right;">
+                        Expires On: {{ job.expires_at | date:'MMM d, y' }}
+                    </div>
+                </div>
+                <div ng-if="job.status === 'expired'">
+                    <div class="fs-6 btn btn-outline-danger" style="float: right;">
+                        Expired
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row mb-5 mt-2">
+            <div class="display-4 text-center fw-bold">
+                Job Details
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9 mt-3">
+                <div class="fs-3">
+                    {{ job.company }}
+                </div>
+                <div class="fs-4">
+                    {{ job.location }}
+                    <div class="fs-6 btn disabled btn-outline-secondary" style="float: right;">
+                        {{ job.category }}
+                    </div>
+
+                </div>
+                <hr>
+                <div class="fs-4">
+                    {{ job.position }} - {{ job.type }}
+                    <!-- <div class="fs-6 btn disabled btn-outline-success" style="float: right;">
+                    Expires On: {{ job.expires_at | date:'MMM d, y' }}
+                </div> -->
+                </div>
+                <hr>
+            </div>
+            <div class="col-sm-3">
+                <img src="https://img.freepik.com/vector-premium/fondo-negro-letras-c-c_853558-1977.jpg"
+                    class="img-fluid rounded" alt="" srcset="">
+            </div>
+        </div>
+        <div class="row my-5 lh-lg">
+            <div class="lead text-secondary text-justify">
+                {{ job.description }}
+            </div>
+        </div>
+        <div ng-if="!job.url || job.url == ''">
+            <div class="row">
+                <div class="col-sm-9 fs-4 fst-italic">
+                    How to Apply?
+                </div>
+                <div class="col-sm-3 text-end fs-4 fst-italic">
+                    Contact Us
+                </div>
+                <div class="mt-3 mb-5 col-sm-9 lead">
+                    <span ng-bind-html="job.how_to_apply | emailAndLink"></span>
+                </div>
+                <div class="mt-3 mb-5 text-end col-sm-3 lead">
+                    <a href="mailto:{{job.email}}">{{job.email}}</a>
+                </div>
+            </div>
+        </div>
+        <div ng-if="job.url && job.url != ''">
+            <div class="row">
+                <div class="col-sm-9 fs-4 fst-italic">
+                    How to Apply?
+                </div>
+                <div class="mt-3 mb-5 col-sm-9 lead">
+                    <span ng-bind-html="job.how_to_apply | emailAndLink"></span>
+                </div>
+            </div>
+
+            <div class="row align-items-end justify-content-end">
+                <div class="col-sm-9 fs-4 fst-italic">
+                    Job URL
+                </div>
+                <div class="col-sm-3 text-end fs-4 fst-italic">
+                    Contact Us
+                </div>
+                <div class="mt-3 mb-5 col-sm-9 lead">
+                    <a href="{{job.url}}">{{job.url}}</a>
+                </div>
+                <div class="mt-3 mb-5 text-end col-sm-3 lead">
+                    <a href="mailto:{{job.email}}">{{job.email}}</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- <div>
+    <h2>Job Details</h2>
+    <p><strong>Position:</strong> {{ job.position }}</p>
+    <p><strong>Company:</strong> {{ job.company }}</p>
+    <p><strong>Type:</strong> {{ job.type }}</p>
+    <p><strong>Location:</strong> {{ job.location }}</p>
+    <p><strong>Description:</strong> {{ job.description }}</p>
+    <p><strong>Category:</strong> {{ job.category }}</p>
+    <p><strong>How to Apply:</strong> {{ job.how_to_apply }}</p>
+    <p><strong>Email:</strong> {{ job.email }}</p>
+</div> -->

@@ -1,0 +1,288 @@
+<!-- <div>
+    <button ng-click="getData()">Fetch Data</button>
+    <pre>{{ apiResponse | json }}</pre> 
+</div> -->
+<div class="content-animate">
+    <div class="container mt-5">
+        <div class="p-5 pt-0" style="color: black;">
+            <div class="row justify-content-around ">
+                <div class="col-sm-6 d-flex align-items-start ms-auto justify-content-end">
+                    <h1 class="mb-0 mt-5 me-1 display-4 fw-bold">Find Your Dream Job!!!
+                        Happy Job Hunting <br><br>
+                    </h1>
+                </div>
+                <div class="col-sm-4 me-auto mb-0">
+                    <img class="img-fluid" style="height: 80%;"
+                        src="https://png.pngtree.com/png-clipart/20211116/original/pngtree-job-illustration-design-with-transparent-background-png-image_6929533.png"
+                        alt="">
+                </div>
+            </div>
+            <div class="row align-items-start">
+                <div class="col-sm-9 mt-0">
+                    <div class="form-group mt-0 align-items-start">
+                        <!-- Wrap input and suggestions in a relative container -->
+                        <div class="suggestion-container" style="position: relative;">
+                            <input type="text" class="form-control my-0" aria-describedby="helpId"
+                                placeholder="Search..." ng-model="jobSearch" ng-keypress="checkEnter($event)"
+                                ng-change="getSuggestions()">
+                            <div class="suggestions" ng-if="suggestions.length > 0">
+                                <ul>
+                                    <li ng-repeat="job in suggestions" ng-click="openJobDetails(job.id)">
+                                        {{ job.position }} at {{ job.company }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-3 gap-2 d-grid md-block my-0">
+                    <button class="btn btn-outline-dark" ng-click="submitSearch()" type="button">
+                        Search &nbsp;&nbsp;<i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="white-bg">
+
+        <div class="container">
+            <div class="display-6 fw-bold py-5">
+                Top Active Jobs
+            </div>
+            <div ng-repeat="(category, jobs) in groupedJobs" class="py-3">
+                <a href="" ng-click="viewCategory(category)" class="fs-4">{{ category }} </a>
+
+                <table class="table table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Position</th>
+                            <th scope="col">Company</th>
+                            <th scope="col">Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="job in jobs">
+                            <th scope="row">{{ $index + 1 }}</th>
+                            <td><a href="" ng-click="viewDetails(job.id)">{{ job.position }}</a></td>
+                            <td>{{ job.company }}</td>
+                            <td>{{ job.location }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 display-6 mt-5 fw-bold">
+                    Promoted Jobs
+                </div>
+            </div>
+            <div class="row pt-5 align-items-center justify-content-around"><br><br>
+                <div class="card col-sm-3 mx-1 justify-content-start">
+                    <div class="row fw-normal text-start align-items-start justify-content-start mt-4 px-1">
+                        <div class="col-sm-12 h6"> Finance Controller </div>
+                        <div class="col-sm-12 fs6 text-secondary"><i class="bi bi-globe"> {{ jobLocation }}</i>
+                            <i class="bi bi-briefcase"> {{ jobTime }}</i>
+                        </div>
+                        <small class="col-sm-12 fs6 mt-1">
+                            {{companyName}}
+                        </small>
+                        <br><br><br><br><br>
+                        <div class="col-sm-12 fs-6 lead text-secondary text-justify">
+                            {{ jobDescription }}
+                        </div>
+                        <div class="d-grid gap-2 mt-2">
+                            <button type="button" name="" id="" class="btn btn-warning">
+                                View More &nbsp;&nbsp;<i class="bi small bi-box-arrow-up-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-sm-3 ms-1 me-1 justify-content-start">
+                    <div class="row fw-normal text-start align-items-start justify-content-start mt-4 px-1">
+                        <div class="col-sm-12 h6"> Finance Controller </div>
+                        <div class="col-sm-12 fs6 text-secondary"><i class="bi bi-globe"> {{ jobLocation }}</i>
+                            <i class="bi bi-briefcase"> {{ jobTime }}</i>
+                        </div>
+                        <small class="col-sm-12 fs6 mt-1">
+                            {{companyName}}
+                        </small>
+                        <br><br><br><br><br>
+                        <div class="col-sm-12 fs-6 lead text-secondary text-justify">
+                            {{ jobDescription }}
+                        </div>
+                        <div class="d-grid gap-2 mt-2">
+                            <button type="button" name="" id="" class="btn btn-warning">
+                                View More &nbsp;&nbsp;<i class="bi small bi-box-arrow-up-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-sm-3 ms-1 me-1 justify-content-start">
+                    <div class="row fw-normal text-start align-items-start justify-content-start mt-4 px-1">
+                        <div class="col-sm-12 h6"> Finance Controller </div>
+                        <div class="col-sm-12 fs6 text-secondary"><i class="bi bi-globe"> {{ jobLocation }}</i>
+                            <i class="bi bi-briefcase"> {{ jobTime }}</i>
+                        </div>
+                        <small class="col-sm-12 fs6 mt-1">
+                            {{companyName}}
+                        </small>
+                        <br><br><br><br><br>
+                        <div class="col-sm-12 fs-6 lead text-secondary  text-justify">
+                            {{ jobDescription }}
+                        </div>
+                        <div class="d-grid gap-2 mt-2">
+                            <button type="button" name="" id="" class="btn btn-warning">
+                                View More &nbsp;&nbsp;<i class="bi small bi-box-arrow-up-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5 pt-5 pb-5 ">
+                    <div class="col-sm-8">
+                        <div class="display-6 mb-5 fw-bold">Company Spotlight</div>
+                        <div class="card2 p-4">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <img src="https://img.freepik.com/premium-photo/lab-with-lot-people-it_900958-10571.jpg"
+                                        alt="" srcset="" class="img-fluid rounded">
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="h4">SparkWave Labs Surges Forward With New Funding and Expansion Plans
+                                    </div>
+                                    <div class="lead fs-6 text-secondary text-justify">Lorem, ipsum dolor sit amet
+                                        consectetur adipisicing elit. Ad ab
+                                        quasi corrupti, consectetur quibusdam facilis, nihil voluptas, ipsum alias
+                                        cupiditate impedit aspernatur recusandae delectus expedita repellendus omnis?
+                                        Nostrum, dolorem tempora.
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum ab dolor itaque
+                                        magnam
+                                        inventore reiciendis doloribus recusandae officia est possimus sapiente
+                                        voluptate,
+                                        tempora quaerat sed at voluptates vel harum distinctio.
+                                    </div>
+                                    <div class="d-grid gap-2 mt-2">
+                                        <button type="button" name="" id="" class="btn btn-dark">
+                                            Read More &nbsp;&nbsp;<i class="bi small bi-box-arrow-up-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="display-6 mb-5 fw-bold">Podcast</div>
+                        <div class="card2 p-4">
+                            <div class="h4">
+                                New Episode
+                            </div>
+                            <iframe class="mt-4"
+                                src="https://www.youtube.com/embed/KKNCiRWd_j0?si=zHET4jo9bmAHZQu_&amp;controls=0"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <div class="font-sans h4 mt-2 mb-2">What Is an AI Anyway? | Mustafa Suleyman | TED</div>
+                            <div class="row align-items-center">
+                                <div class="col-sm-1">
+                                    <button type="button" name="" id="" class="btn btn-warning btn-lg mt-3">
+                                        <i class="bi bi-play-fill text-white" style="font-size: larger;"></i>
+                                    </button>
+                                </div>
+                                <div class="progress-container mt-3 col-sm-8 offset-2" style="position: relative;">
+                                    <div class="progress" style="height: 2px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"
+                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="circle"
+                                        style="position: absolute; left: 75%; top: -10px; transform: translateX(-50%);">
+                                        <div class="bg-warning" style="width: 20px; height: 20px; border-radius: 50%;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="display-6 mb-5 fw-bold">Startup-News</div>
+                <div class="row mb-5">
+                    <div class="col-sm-5">
+                        <div class="card2 p-5">
+                            <div class="row">
+                                <button type="button" class="btn btn-outline-dark col-sm-5 me-2"
+                                    style="background-color: rgba(255, 255, 0, 0.274);">#Growth</button>
+                                <button type="button" class="btn btn-outline-dark col-sm-5"
+                                    style="background-color: rgba(255, 255, 0, 0.274);">#Job Search</button>
+                            </div>
+                            <div class="row">
+                                <img src="https://thumbs.dreamstime.com/b/four-postgraduate-students-feeling-busy-preparing-project-using-their-laptops-notes-139586329.jpg"
+                                    alt="" srcset="" class="img-fluid mt-3">
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-12">
+                                    <div class="h4 font-sans">Unlocking your Potential</div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="lead fs-6 text-secondary text-justify">Discover Exciting Job openings,
+                                        from
+                                        software
+                                        engineering to marketing, and embark on a journey towards innovation and growth.
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 mt-2">
+                                    <button type="button" name="" id="" class="btn btn-dark">
+                                        Read More &nbsp;&nbsp;<i class="bi small bi-box-arrow-up-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="card2 p-5">
+                            <div class="row mb-3">
+                                <button type="button" class="btn btn-outline-dark col-sm-3 me-2"
+                                    style="background-color: rgba(255, 255, 0, 0.274);">#Startup</button>
+                                <button type="button" class="btn btn-outline-dark col-sm-3 me-2"
+                                    style="background-color: rgba(255, 255, 0, 0.274);">#Job Search</button>
+                                <button type="button" class="btn btn-outline-dark col-sm-3"
+                                    style="background-color: rgba(255, 255, 0, 0.274);">#Charts</button>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <img src="https://thumbs.dreamstime.com/z/vertical-portrait-group-multiracial-happy-teenage-students-using-laptop-working-university-homework-project-college-281218352.jpg"
+                                        alt="" srcset="" class="img-fluid">
+                                </div>
+                                <div class="col-sm-6 d-flex flex-column">
+                                    <div class="h4 font-sans">Start-up Hiring Boom: Top Industries Where Opportunities
+                                        Abound</div>
+                                    <div class="lead fs-6 text-secondary text-justify">Explore the hottest sectors
+                                        driving
+                                        startup
+                                        growth! From fintech to healthtech, uncover the diverse range of industries
+                                        offering
+                                        abundant job prospects and chart your course towards a thriving career
+                                    </div>
+                                    <div class="d-grid gap-2 mt-auto">
+                                        <button type="button" name="" id="" class="btn btn-dark">
+                                            Read More &nbsp;&nbsp;<i class="bi small bi-box-arrow-up-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+</div>
