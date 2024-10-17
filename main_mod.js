@@ -133,7 +133,7 @@ app.controller('HomepageCtrl', function ($scope, $http, $location) {
     // };
 
     // Fetch jobs data
-    $http.get('job_data.json').then(function (response) {
+    $http.get('http://192.168.0.165/api/jobs').then(function (response) {
         $scope.jobs = response.data;
         $scope.activeJobs = $scope.jobs.filter(job => job.status === 'active');
     });
@@ -167,7 +167,7 @@ app.controller('HomepageCtrl', function ($scope, $http, $location) {
         $location.path('/job-details/' + jobId);
     };
 
-    $http.get('job_data.json').then(function (response) {
+    $http.get('http://192.168.0.165/api/jobs').then(function (response) {
         $scope.jobs = response.data;
 
         // Filter active jobs
@@ -302,7 +302,7 @@ app.controller('JobsCtrl', function ($scope, $http, $location, $routeParams) {
     $scope.paginatedJobs = {};          // Object to hold paginated jobs per category
 
     // Fetch jobs data
-    $http.get('job_data.json').then(function (response) {
+    $http.get('http://192.168.0.165/api/jobs').then(function (response) {
         $scope.jobs = response.data;
 
         // Filter active jobs
@@ -416,18 +416,17 @@ app.controller('JobsCtrl', function ($scope, $http, $location, $routeParams) {
 app.controller('JobDetailsCtrl', function ($scope, $routeParams, $http) {
     const jobID = $routeParams.id;
 
-    $http.get('job_data.json').then(function (response) {
-
-        $scope.job = response.data.find(job => job.id === parseInt(jobID));
-
-        if (!$scope.job) {
-            $scope.errorMessage = "Job not found.";
-        }
-    }, function (error) {
-        console.error("Error fetching job data:", error);
-        $scope.errorMessage = "Unable to retrieve job data.";
-    });
+    // Directly request the specific job by ID
+    $http.get(`http://192.168.0.165/api/jobs/${jobID}`)
+        .then(function (response) {
+            $scope.job = response.data.data; // Assuming the API returns the job object directly
+            console.log($scope.job);
+        }, function (error) {
+            console.error("Error fetching job data:", error);
+            $scope.errorMessage = "Unable to retrieve job data.";
+        });
 });
+
 
 
 app.controller('PostJobCtrl', function ($scope, $interval, $http) {

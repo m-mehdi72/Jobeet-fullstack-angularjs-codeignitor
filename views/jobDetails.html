@@ -4,7 +4,7 @@
             <div class="col-sm-12">
                 <div ng-if="job.status === 'active'">
                     <div class="fs-6 btn disabled btn-outline-success" style="float: right;">
-                        Expires On: {{ job.expires_at | date:'MMM d, y' }}
+                        Expires On: {{ job.expires_on | date:'MMM d, y' }}
                     </div>
                 </div>
                 <div ng-if="job.status === 'expired'">
