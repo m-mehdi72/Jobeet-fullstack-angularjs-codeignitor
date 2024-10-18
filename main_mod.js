@@ -1,5 +1,5 @@
 var app = angular.module('myMod', ['ngRoute', 'ngSanitize', 'adminMod', 'affiliateMod', 'ngAnimate'])
-    .controller('MainController', ['$scope', '$location', function ($scope, $location) {       
+    .controller('MainController', ['$scope', '$location', function ($scope, $location) {
 
         // Watch for changes in the route
         $scope.$on('$routeChangeSuccess', function () {
@@ -427,8 +427,6 @@ app.controller('JobDetailsCtrl', function ($scope, $routeParams, $http) {
         });
 });
 
-
-
 app.controller('PostJobCtrl', function ($scope, $interval, $http) {
     $scope.title = 'Post Job';
     $scope.type = 'Full-Time';
@@ -439,20 +437,23 @@ app.controller('PostJobCtrl', function ($scope, $interval, $http) {
         futureDate.setDate(futureDate.getDate() + 30);
         $scope.futureDT = futureDate;
     }, 1000);
-    $http.get('categories.json').then(function (response) {
-        $scope.categories = response.data.categories;
+    $http.get('http://192.168.0.165/api/categories').then(function (response) {
+        $scope.categories = response.data[0];
         $scope.category = $scope.categories[0];
     });
 
 
     $scope.openOverlay = function () {
-        $('#jobPostOverlay').modal('show');
+        // Check if the modal is already open
+        if (!$('#jobPostOverlay').hasClass('show')) {
+            $('#jobPostOverlay').modal('show');
+        }
     };
 
-
-    $scope.closeOverlay = function (id) {
-        $(id).modal('hide');
+    $scope.closeOverlay = function (modalId) {
+        $(modalId).modal('hide');
     };
+
 
     $scope.confirmPost = function () {
         // alert("Your unique link to edit job http://127.0.0.1:5500/index.html#!/post_job/edit/5fbb1e63-4d44-4200-8cb9-e2353e8e1f01");
