@@ -1,6 +1,8 @@
 var app = angular.module('myMod', ['ngRoute', 'ngSanitize', 'adminMod', 'affiliateMod', 'ngAnimate'])
     .controller('MainController', ['$scope', '$location', function ($scope, $location) {
 
+        $DOMAIN_NAME = 'http://dev.jobeet_sm.com:8080';
+
         // Watch for changes in the route
         $scope.$on('$routeChangeSuccess', function () {
 
@@ -40,8 +42,7 @@ var app = angular.module('myMod', ['ngRoute', 'ngSanitize', 'adminMod', 'affilia
             return $scope.activeTab === tab;
         }
 
-
-
+        
     }]);
 
 app.filter('emailAndLink', function () {
@@ -123,7 +124,7 @@ app.controller('HomepageCtrl', function ($scope, $http, $location) {
 
     // API TESTING
     // $scope.getData = function() {
-    //     $http.get('http://192.168.0.165/api/test') // Change this URL if needed
+    //     $http.get($DOMAIN_NAME + '/api/test') // Change this URL if needed
     //         .then(function(response) {
     //             $scope.apiResponse = response.data; // Store the response data
     //         })
@@ -133,7 +134,7 @@ app.controller('HomepageCtrl', function ($scope, $http, $location) {
     // };
 
     // Fetch jobs data
-    $http.get('http://192.168.0.165/api/jobs').then(function (response) {
+    $http.get($DOMAIN_NAME + '/api/jobs').then(function (response) {
         $scope.jobs = response.data;
         $scope.activeJobs = $scope.jobs.filter(job => job.status === 'active');
     });
@@ -167,7 +168,7 @@ app.controller('HomepageCtrl', function ($scope, $http, $location) {
         $location.path('/job-details/' + jobId);
     };
 
-    $http.get('http://192.168.0.165/api/jobs').then(function (response) {
+    $http.get($DOMAIN_NAME + '/api/jobs').then(function (response) {
         $scope.jobs = response.data;
 
         // Filter active jobs
@@ -302,7 +303,7 @@ app.controller('JobsCtrl', function ($scope, $http, $location, $routeParams) {
     $scope.paginatedJobs = {};          // Object to hold paginated jobs per category
 
     // Fetch jobs data
-    $http.get('http://192.168.0.165/api/jobs').then(function (response) {
+    $http.get($DOMAIN_NAME + '/api/jobs').then(function (response) {
         $scope.jobs = response.data;
 
         // Filter active jobs
@@ -417,7 +418,7 @@ app.controller('JobDetailsCtrl', function ($scope, $routeParams, $http) {
     const jobID = $routeParams.id;
 
     // Directly request the specific job by ID
-    $http.get(`http://192.168.0.165/api/jobs/${jobID}`)
+    $http.get($DOMAIN_NAME + `/api/jobs/${jobID}`)
         .then(function (response) {
             $scope.job = response.data.data; // Assuming the API returns the job object directly
             console.log($scope.job);
@@ -429,50 +430,87 @@ app.controller('JobDetailsCtrl', function ($scope, $routeParams, $http) {
 
 app.controller('PostJobCtrl', function ($scope, $interval, $http) {
     $scope.title = 'Post Job';
-    $scope.type = 'Full-Time';
-    $scope.token = '5fbb1e63-4d44-4200-8cb9-e2353e8e1f01';
+    $scope.jobData = {}; // Initialize jobData object
+    $scope.jobData.type = 'Full-Time'; // Set a default value for the job type
+
+    // Set a future expiry date dynamically
     $interval(function () {
         $scope.curDT = new Date();
         var futureDate = new Date();
         futureDate.setDate(futureDate.getDate() + 30);
-        $scope.futureDT = futureDate;
+        $scope.jobData.expires_on = futureDate.toISOString().slice(0, 10);
     }, 1000);
-    $http.get('http://192.168.0.165/api/categories').then(function (response) {
+
+    // Fetch categories and set default category
+    $http.get($DOMAIN_NAME + '/api/categories').then(function (response) {
         $scope.categories = response.data[0];
-        $scope.category = $scope.categories[0];
+        // $scope.jobData.category = $scope.categories[0]; // Default to the first category
     });
 
-
+    $scope.openJobPostPage = function (category = $scope.categories[0]) {
+        if (!$('#jobPostPage').hasClass('show')) {
+            $scope.jobData.category = category;
+            $('#jobPostPage').modal('show');
+        }
+    };
+    // Function to open the overlay
     $scope.openOverlay = function () {
-        // Check if the modal is already open
         if (!$('#jobPostOverlay').hasClass('show')) {
             $('#jobPostOverlay').modal('show');
         }
     };
 
+    // Function to close the overlay
     $scope.closeOverlay = function (modalId) {
         $(modalId).modal('hide');
     };
 
-
+    // Function to submit job data
     $scope.confirmPost = function () {
-        // alert("Your unique link to edit job http://127.0.0.1:5500/index.html#!/post_job/edit/5fbb1e63-4d44-4200-8cb9-e2353e8e1f01");
-        $('#editURL').modal('show');
-        $('#jobPostOverlay').modal('hide');
-        // $scope.goToPage('/');
+        // Ensure jobData is populated and log it to console
+        console.log($scope.jobData);
+
+        // Send the jobData as JSON to the backend API
+        $http({
+            method: 'POST',
+            url: $DOMAIN_NAME + '/api/jobs/post',
+            data: $scope.jobData, // Send jobData directly
+            headers: {
+                'Content-Type': 'application/json' // Set the Content-Type to JSON
+            }
+        }).then(function (response) {
+            // Check if the response contains a success message
+            if (response.data.success) {
+                // Success handling
+                console.log('Job posted successfully:', response.data);
+                $scope.token = response.data.token; // Save the token if needed
+                $scope.job_id = response.data.job_id; // You can also store the job ID if necessary
+                $('#editURL').modal('show'); // Show success modal
+                $('#jobPostOverlay').modal('hide'); // Hide job post overlay
+                $('#jobPostPage').modal('hide'); // Hide job post overlay
+            } else if (response.data.error) {
+                // Handle case where there is an error but still a 200 response
+                console.error('Error:', response.data.error);
+                alert('Error: ' + response.data.error);
+            }
+        }, function (error) {
+            // Handle any HTTP errors (non-2xx responses)
+            console.error('Error occurred:', error.data);
+            alert('Error posting job. Please try again.');
+        });
     };
 
+    // Image preview function (if needed)
     $scope.SelectFile = function (e) {
         var reader = new FileReader();
         reader.onload = function (e) {
             $scope.PreviewImage = e.target.result;
             $scope.$apply();
         };
-
         reader.readAsDataURL(e.target.files[0]);
     };
-
 });
+
 
 app.controller('JobEditCtrl', function ($scope, $routeParams, $http, $location) {
     $scope.title = "Poster Job Edit";

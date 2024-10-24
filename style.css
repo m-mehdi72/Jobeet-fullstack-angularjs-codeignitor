@@ -347,3 +347,7 @@ input[type="datetime-local"].transparent-input::-webkit-calendar-picker-indicato
     from { opacity: 0; }
     to { opacity: 1; }
 }
+/* .modal {
+    z-index: 1050 !important; 
+} */
+
