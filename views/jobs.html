@@ -33,16 +33,16 @@
 
     <div class="container">
         <div ng-repeat="(category, jobs) in categories">
-            <div class="row">
+            <div class="row" ng-if="(jobs | filter:customFilter).length > 0 && (categoryFilter === '' || category.toLowerCase() === categoryFilter.toLowerCase())">
                 <div class="col-sm-8">
                     <h2
-                        ng-if="(jobs | filter:customFilter).length > 0 && (categoryFilter === '' || category.toLowerCase() === categoryFilter.toLowerCase())">
+                        >
                         <a href="" ng-click="viewCategory(category)" class="fs-4">{{ category }} ({{ (jobs |
                             filter:customFilter).length }}) </a>
                     </h2>
                 </div>
                 <div class="col-sm-4 text-end">
-                    <div class="btn btn-outline-warning rounded-pill" ng-click="openJobPostPage(category)">
+                    <div class="btn btn-outline-warning rounded-pill" ng-click="toggleModal('jobPostPage');loadCategory(category)">
                         Post Job for {{category}}
                     </div>
                 </div>

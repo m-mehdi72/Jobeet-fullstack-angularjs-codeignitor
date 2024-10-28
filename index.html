@@ -12,9 +12,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
-    <script src="main_mod.js"></script>
-    <script src="admin_mod.js"></script>
-    <script src="affiliate_mod.js"></script>
+    <script src="main_module.js"></script>
+    <script src="admin_module.js"></script>
+    <script src="affiliate_module.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -26,7 +26,6 @@
 
 
     <br>
-    <div ng-controller="PostJobCtrl">
     <nav class="navbar navbar-expand-sm bordern navbar-dark rounded-pill mx-4" style="background-color: black;">
         <div class="container">
             <!-- Left-aligned: Jobeet text -->
@@ -61,7 +60,7 @@
                     <a href="#!post_job" class="post-job-link">Post a Job</a>
                 </button> -->
                 <button class="btn btn-outline-warning ms-auto rounded-pill post-job-link" type="submit"
-                    ng-click="openJobPostPage()">
+                    ng-click="toggleModal('jobPostPage');loadCategory()">
                     Post a Job
                 </button>
 
@@ -127,256 +126,253 @@
         </div>
     </footer>
 
-
-    
-        <div class="modal fade " id="jobPostPage" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-            aria-hidden="true">
-            <div class="modal-dialog custom-modal-index modal-dialog-scrollable modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitleId">
-                            Job Confirmation
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="container px-5 my-5">
-                            <form id="contactForm" enctype="multipart/form-data" method="POST"
-                                ng-submit="openOverlay()">
-                                <div class="row mb-5 mt-2">
-                                    <div class="display-4 text-center fw-bold">
-                                        Post a Job
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-floating mb-3 col-sm-6">
-                                        <input class="form-control" id="company" type="text" placeholder="Company"
-                                            ng-model="jobData.company" required>
-                                        <label for="company">&nbsp;&nbsp;&nbsp;Company</label>
-                                    </div>
-
-                                    <div class="form-floating mb-3 col-sm-5">
-                                        <select class="form-select" id="type" aria-label="Type" ng-model="jobData.type">
-                                            <option value="Full-Time">Full-Time</option>
-                                            <option value="Half-Time">Half-Time</option>
-                                            <option value="Freelance">Freelance</option>
-                                        </select>
-                                        <label for="type">&nbsp;&nbsp;&nbsp;Type</label>
-                                    </div>
-                                    <div class="mb-3 col-sm-1 d-flex align-items-center justify-content-start">
-                                        <input class="form-check-input" id="isPublic" type="checkbox"
-                                            ng-model="jobData.public" />
-                                        <label for="logoUrl" class="form-label mb-0"> &nbsp;Public</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-sm-6 d-flex align-items-center justify-content-between">
-                                        <label for="logoUrl" class="form-label mb-0">Upload Logo: </label>
-                                        <input class="form-control" id="logoUrl" type="file"
-                                            onchange="angular.element(this).scope().SelectFile(event)"
-                                            style="width: 78%;" />
-
-                                    </div>
-                                    <div class="form-floating mb-3 col-sm-6">
-                                        <input class="form-control" id="url" type="text" placeholder="Job URL"
-                                            ng-model="jobData.url" />
-                                        <label for="url">&nbsp;&nbsp;&nbsp;Job URL</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-floating mb-3 col-sm-4">
-                                        <input class="form-control" id="position" type="text" placeholder="Position"
-                                            data-sb-validations="required" ng-model="jobData.position" required />
-                                        <label for="position">&nbsp;&nbsp;&nbsp;Position</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-sm-5">
-                                        <input class="form-control" id="location" type="text" placeholder="Location"
-                                            data-sb-validations="required" ng-model="jobData.location" required />
-                                        <label for="location">&nbsp;&nbsp;&nbsp;Location</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-sm-3">
-                                        <select class="form-select custom-dropdown" id="category" aria-label="Category"
-                                            ng-model="jobData.category">
-                                            <option ng-repeat="item in categories" value="{{item}}">{{item}}</option>
-                                        </select>
-                                        <label for="category">&nbsp;&nbsp;&nbsp;Category</label>
-                                    </div>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" id="description" type="text"
-                                        placeholder="Description" style="height: 10rem;" ng-model="jobData.description"
-                                        required></textarea>
-                                    <label for="description">Job Description</label>
-                                </div>
-                                <div class="row">
-                                    <div class="form-floating mb-3 col-sm-8">
-                                        <textarea class="form-control" id="howToApply" type="text"
-                                            placeholder="How to Apply" ng-model="jobData.how_to_apply"></textarea>
-                                        <label for="howToApply">&nbsp;&nbsp;&nbsp;How to Apply</label>
-                                    </div>
-                                    <div class="form-floating mb-3 col-sm-4">
-                                        <input class="form-control" id="emailAddress" type="email"
-                                            placeholder="Email Address" ng-model="jobData.email" required />
-                                        <label for="emailAddress">&nbsp;&nbsp;&nbsp;Email Address</label>
-
-                                    </div>
-
-                                </div>
-                                <div class="d-grid">
-                                    <button class="btn btn-warning btn-lg" id="submitButton"
-                                        type="submit">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <div ng-show="showJobPostPage" class="modal-backdrop">
+        <div class="modal-dialog custom-modal-index modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">
+                        Job Confirmation
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="toggleModal('jobPostPage')"
+                        aria-label="Close"></button>
                 </div>
-            </div>
-        </div>
-        <div class="modal fade " id="jobPostOverlay" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-            aria-hidden="true">
-            <div class="modal-dialog custom-modal-index modal-dialog-scrollable modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitleId">
-                            Job Confirmation
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row mt-3 justify-content-between">
-                                <div class="col-sm-4">
-                                    <div class="fs-6 btn disabled btn-outline-success">
-                                        Expires On: {{ jobData.expires_on | date:'MMM d, y' }}
-                                    </div>
-                                </div>
-                                <!-- <div class="col-sm-6">
-                                Your unique link to edit job <a href="http://127.0.0.1:5500/index.html#!/post_job/edit/{{token}}">http://127.0.0.1:5500/index.html#!/post_job/edit/{{token}}</a>
-                            </div> -->
-                                <div class="col-sm-2">
-                                    <div ng-if="jobData.is_public">
-                                        <div class="text-success">This Job is Public</div>
-                                    </div>
-                                    <div ng-if="!jobData.is_public">
-                                        <div class="text-danger">This Job is not public</div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="modal-body">
+
+                    <div class="container px-5 my-5">
+                        <!-- <form id="contactForm" enctype="multipart/form-data" method="POST" ng-submit="openOverlay()"> -->
+                        <form id="contactForm" enctype="multipart/form-data" method="POST"
+                            ng-submit="toggleModal('jobPostOverlay');toggleModal('jobPostPage')">
                             <div class="row mb-5 mt-2">
-                                <!-- <div class="display-4 text-center fw-bold">
-                                Job Details
-                            </div> -->
+                                <div class="display-4 text-center fw-bold">
+                                    Post a Job
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-9 mt-3">
-                                    <div class="fs-3">
-                                        {{ jobData.company }}
-                                    </div>
-                                    <div class="fs-4">
-                                        {{ jobData.location }}
-                                        <div class="fs-6 btn disabled btn-outline-secondary" style="float: right;">
-                                            {{ jobData.category }}
-                                        </div>
-
-                                    </div>
-                                    <hr>
-                                    <div class="fs-4">
-                                        {{ jobData.position }} - {{ jobData.type }}
-
-                                    </div>
-                                    <hr>
+                                <div class="form-floating mb-3 col-sm-6">
+                                    <input class="form-control" id="company" type="text" placeholder="Company"
+                                        ng-model="jobData.company" required>
+                                    <label for="company">&nbsp;&nbsp;&nbsp;Company</label>
                                 </div>
-                                <div class="col-sm-3">
-                                    <img ng-src="{{PreviewImage}}" ng-show="PreviewImage != null" alt=""
-                                        class="img-fluid rounded" />
+
+                                <div class="form-floating mb-3 col-sm-5">
+                                    <select class="form-select" id="type" aria-label="Type" ng-model="jobData.type">
+                                        <option value="Full-Time">Full-Time</option>
+                                        <option value="Half-Time">Half-Time</option>
+                                        <option value="Freelance">Freelance</option>
+                                    </select>
+                                    <label for="type">&nbsp;&nbsp;&nbsp;Type</label>
+                                </div>
+                                <div class="mb-3 col-sm-1 d-flex align-items-center justify-content-start">
+                                    <input class="form-check-input" id="isPublic" type="checkbox"
+                                        ng-model="jobData.public" />
+                                    <label for="logoUrl" class="form-label mb-0"> &nbsp;Public</label>
                                 </div>
                             </div>
-                            <div class="row my-5 lh-lg">
-                                <div class="lead text-secondary text-justify">
-                                    {{ jobData.description }}
+                            <div class="row">
+                                <div class="mb-3 col-sm-6 d-flex align-items-center justify-content-between">
+                                    <label for="logoUrl" class="form-label mb-0">Upload Logo: </label>
+                                    <input class="form-control" id="logoUrl" type="file"
+                                        onchange="angular.element(this).scope().SelectFile(event)"
+                                        style="width: 78%;" />
+
+                                </div>
+                                <div class="form-floating mb-3 col-sm-6">
+                                    <input class="form-control" id="url" type="text" placeholder="Job URL"
+                                        ng-model="jobData.url" />
+                                    <label for="url">&nbsp;&nbsp;&nbsp;Job URL</label>
                                 </div>
                             </div>
-
-                            <div ng-if="!jobData.url || jobData.url == ''">
-                                <div class="row">
-                                    <div class="col-sm-9 fs-4 fst-italic">
-                                        How to Apply?
-                                    </div>
-                                    <div class="col-sm-3 text-end fs-4 fst-italic">
-                                        Contact Us
-                                    </div>
-                                    <div class="mt-3 mb-5 col-sm-9 lead">
-                                        <span ng-bind-html="jobData.how_to_apply | emailAndLink"></span>
-                                    </div>
-                                    <div class="mt-3 mb-5 text-end col-sm-3 lead">
-                                        <a href="mailto:{{jobData.email}}">{{jobData.email}}</a>
-                                    </div>
+                            <div class="row">
+                                <div class="form-floating mb-3 col-sm-4">
+                                    <input class="form-control" id="position" type="text" placeholder="Position"
+                                        data-sb-validations="required" ng-model="jobData.position" required />
+                                    <label for="position">&nbsp;&nbsp;&nbsp;Position</label>
+                                </div>
+                                <div class="form-floating mb-3 col-sm-5">
+                                    <input class="form-control" id="location" type="text" placeholder="Location"
+                                        data-sb-validations="required" ng-model="jobData.location" required />
+                                    <label for="location">&nbsp;&nbsp;&nbsp;Location</label>
+                                </div>
+                                <div class="form-floating mb-3 col-sm-3">
+                                    <select class="form-select custom-dropdown" id="category" aria-label="Category"
+                                        ng-model="jobData.category">
+                                        <option ng-repeat="item in categories" value="{{item}}">{{item}}</option>
+                                    </select>
+                                    <label for="category">&nbsp;&nbsp;&nbsp;Category</label>
                                 </div>
                             </div>
-                            <div ng-if="jobData.url && jobData.url != ''">
-                                <div class="row">
-                                    <div class="col-sm-9 fs-4 fst-italic">
-                                        How to Apply?
-                                    </div>
-                                    <div class="mt-3 mb-5 col-sm-9 lead">
-                                        <span ng-bind-html="jobData.how_to_apply | emailAndLink"></span>
-                                    </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="description" type="text" placeholder="Description"
+                                    style="height: 10rem;" ng-model="jobData.description" required></textarea>
+                                <label for="description">Job Description</label>
+                            </div>
+                            <div class="row">
+                                <div class="form-floating mb-3 col-sm-8">
+                                    <textarea class="form-control" id="howToApply" type="text"
+                                        placeholder="How to Apply" ng-model="jobData.how_to_apply"></textarea>
+                                    <label for="howToApply">&nbsp;&nbsp;&nbsp;How to Apply</label>
+                                </div>
+                                <div class="form-floating mb-3 col-sm-4">
+                                    <input class="form-control" id="emailAddress" type="email"
+                                        placeholder="Email Address" ng-model="jobData.email" required />
+                                    <label for="emailAddress">&nbsp;&nbsp;&nbsp;Email Address</label>
+
                                 </div>
 
-                                <div class="row align-items-end justify-content-end">
-                                    <div class="col-sm-9 fs-4 fst-italic">
-                                        Job URL
-                                    </div>
-                                    <div class="col-sm-3 text-end fs-4 fst-italic">
-                                        Contact Us
-                                    </div>
-                                    <div class="mt-3 mb-5 col-sm-9 lead">
-                                        <a href="{{jobData.url}}">{{jobData.url}}</a>
-                                    </div>
-                                    <div class="mt-3 mb-5 text-end col-sm-3 lead">
-                                        <a href="mailto:{{jobData.email}}">{{jobData.email}}</a>
-                                    </div>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-warning btn-lg" id="submitButton" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="showJobPostOverlay" class="modal-backdrop">
+        <div class="modal-dialog custom-modal-index modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">
+                        Job Confirmation
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="toggleModal('jobPostOverlay')"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row mt-3 justify-content-between">
+                            <div class="col-sm-4">
+                                <div class="fs-6 btn disabled btn-outline-success">
+                                    Expires On: {{ jobData.expires_on | date:'MMM d, y' }}
                                 </div>
                             </div>
+                            <!-- <div class="col-sm-6">
+                                Your unique link to edit job <a href="http://127.0.0.1:5500/index.html#!/post_job/edit/{{token}}">http://127.0.0.1:5500/index.html#!/post_job/edit/{{token}}</a>
+                            </div> -->
+                            <div class="col-sm-2">
+                                <div ng-if="jobData.is_public">
+                                    <div class="text-success">This Job is Public</div>
+                                </div>
+                                <div ng-if="!jobData.is_public">
+                                    <div class="text-danger">This Job is not public</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5 mt-2">
+                            <!-- <div class="display-4 text-center fw-bold">
+                                Job Details
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 mt-3">
+                                <div class="fs-3">
+                                    {{ jobData.company }}
+                                </div>
+                                <div class="fs-4">
+                                    {{ jobData.location }}
+                                    <div class="fs-6 btn disabled btn-outline-secondary" style="float: right;">
+                                        {{ jobData.category }}
+                                    </div>
 
+                                </div>
+                                <hr>
+                                <div class="fs-4">
+                                    {{ jobData.position }} - {{ jobData.type }}
+
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="col-sm-3">
+                                <img ng-src="{{PreviewImage}}" ng-show="PreviewImage != null" alt=""
+                                    class="img-fluid rounded" />
+                            </div>
+                        </div>
+                        <div class="row my-5 lh-lg">
+                            <div class="lead text-secondary text-justify">
+                                {{ jobData.description }}
+                            </div>
                         </div>
 
+                        <div ng-if="!jobData.url || jobData.url == ''">
+                            <div class="row">
+                                <div class="col-sm-9 fs-4 fst-italic">
+                                    How to Apply?
+                                </div>
+                                <div class="col-sm-3 text-end fs-4 fst-italic">
+                                    Contact Us
+                                </div>
+                                <div class="mt-3 mb-5 col-sm-9 lead">
+                                    <span ng-bind-html="jobData.how_to_apply | emailAndLink"></span>
+                                </div>
+                                <div class="mt-3 mb-5 text-end col-sm-3 lead">
+                                    <a href="mailto:{{jobData.email}}">{{jobData.email}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="jobData.url && jobData.url != ''">
+                            <div class="row">
+                                <div class="col-sm-9 fs-4 fst-italic">
+                                    How to Apply?
+                                </div>
+                                <div class="mt-3 mb-5 col-sm-9 lead">
+                                    <span ng-bind-html="jobData.how_to_apply | emailAndLink"></span>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-end justify-content-end">
+                                <div class="col-sm-9 fs-4 fst-italic">
+                                    Job URL
+                                </div>
+                                <div class="col-sm-3 text-end fs-4 fst-italic">
+                                    Contact Us
+                                </div>
+                                <div class="mt-3 mb-5 col-sm-9 lead">
+                                    <a href="{{jobData.url}}">{{jobData.url}}</a>
+                                </div>
+                                <div class="mt-3 mb-5 text-end col-sm-3 lead">
+                                    <a href="mailto:{{jobData.email}}">{{jobData.email}}</a>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            ng-click="closeOverlay('#jobPostOverlay')">Cancel</button>
-                        <button type="button" class="btn btn-success" ng-click="confirmPost()">Confirm Post</button>
-                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"
+                        ng-click="toggleModal('jobPostOverlay');toggleModal('jobPostPage')">Go Back</button>
+                    <button type="button" class="btn btn-success" ng-click="confirmPost()">Confirm Post</button>
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="editURL" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-            tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitleId">
-                            Your Job has been Posted!
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Click <a
-                            href="http://127.0.0.1:5500/index.html#!/post_job/edit/{{token}}"> here </a> to edit your job or click Copy to save the link to clipboard.&nbsp;&nbsp;
-                        <button class="btn btn-primary btn-sm"
-                            ng-click="copyToClipboard('http://127.0.0.1:5500/index.html#!/post_job/edit/' + token)">Copy</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" ng-click="closeOverlay('#editURL');goToPage('/')">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </div>
+
+    <div ng-show="showEditURL" class="modal-backdrop">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">
+                        Your Job has been Posted!
+                    </h5>
+                    <button type="button" class="btn-close" ng-click="toggleModal('editURL')"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Click <a href="{{websiteDomain}}post_job/edit/{{token}}"> here </a> to edit your
+                    job or click Copy to save the link to clipboard.&nbsp;&nbsp;
+                    <button class="btn btn-primary btn-sm"
+                        ng-click="copyToClipboard(websiteDomain + 'post_job/edit/' + token)">Copy</button>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="toggleModal('editURL')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
